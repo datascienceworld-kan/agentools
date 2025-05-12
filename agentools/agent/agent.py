@@ -81,17 +81,19 @@ class Agent(AgentMeta):
         self.description = description
         self.skills = skills
         self.TOOLS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        if self.TOOLS_PATH.exists():
-            self.TOOLS_PATH.unlink()
-            self.TOOLS_PATH.write_text(json.dumps({}, indent=4), encoding="utf-8")
         self.register_tools(self.tools)
 
     def register_tools(self, tools: List[str]) -> Any:
         """
         Register a list of tools
         """
+        exisiting_tools = ToolManager.load_tools()
+        list_modules = set([info["module_path"] for info in exisiting_tools.values()])
         for tool in tools:
-            register_function(tool)
+            if tool not in list_modules:
+                register_function(tool)
+            else:
+                logger.warning(f"Tool {tool} already registered. Skipping registration.")
 
     def invoke(self, query: str, *args, **kwargs) -> Any:
         """
