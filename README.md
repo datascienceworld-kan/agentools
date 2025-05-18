@@ -27,6 +27,12 @@ Let's create your acounts first and then create your relevant key for each websi
 
 `agentools` is a flexible library for creating intelligent agents. You can configure your agent with tools, each encapsulated in a Python module under `agentools.tools`. This provides a workspace of tools that agents can use to interact with and operate in the realistic world. Each tool is a Python file with full documentation and it can be independently ran. For example, the [agentools.tools.websearch_tools](agentools/tools/websearch_tools.py) module contains code for interacting with a search API.
 
+Note: 
+- Your python file only exist an unique main def function to proceed your task.
+- Let's write the document for this main def function clearly. The good structure includes: Description (task description), Args (input arguments), and Returns (output result).
+- If you have many sub-functions helping to run main function. Let's wrap up them inside a class. Otherwise, agentools will embedding all sub-functions as seperate tools.
+- If you have many global def functions in a python module. All of them will be indexed a list of tools.
+
 
 ```python
 from langchain_together import ChatTogether 
